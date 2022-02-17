@@ -1,6 +1,6 @@
 <template>
     <h1>{{title}}</h1>
-    <form @submit.prevent="login">
+    <form @submit.prevent="submitHandler">
         <div class="mb-3">
             <label for="email" class="form-label">Email адрес</label>
             <input type="email" v-model="form.email" class="form-control" id="email">
@@ -14,10 +14,8 @@
 </template>
 
 <script>
-import authMixin from '../../../mixins/axios/Auth.js';
 
 export default {
-    mixins: [authMixin],
     data:()=> {
         return {
             title: 'Вход',
@@ -25,9 +23,9 @@ export default {
         }
     },
     methods: {
-        login(e){
-            this.auth(e, 'login', 'dashboard', true);
-        }
+       async submitHandler(){
+           await this.$store.dispatch('login', this.form)
+       }
     }
 }
 </script>

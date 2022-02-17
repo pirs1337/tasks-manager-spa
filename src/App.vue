@@ -20,11 +20,22 @@ export default {
    Footer
   },
   created(){
-    this.$store.dispatch('ifUserIsAuth');
-    console.log(this.$store.state.isAuth)
+    this.$store.dispatch('getAuthUser');
+  },
+  methods: {
+    async checkAuthUser(){
+      try {
+        await this.$store.dispatch('getAuthUser');
+      } catch (error) {
+          console.log(233132);
+      }
+    }
   }
 }
 </script>
 
 <style>
+  h1{
+    margin-bottom: 50px !important;
+  }
 </style>

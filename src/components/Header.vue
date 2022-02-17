@@ -8,7 +8,8 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0">
-              <div v-if="!this.$store.state.isAuth">
+            <li v-if="!this.authUser">
+              <ul class="navbar-nav mb-2 mb-lg-0">
                   <li class="nav-item" v-if="this.$route.path == '/login'">
                     <router-link :to="{ name: 'register'}">
                       <a class="btn btn-dark text-white">Регистрация</a>
@@ -19,12 +20,27 @@
                     <a class="btn btn-dark text-white">Войти</a>
                   </router-link>
                 </li>
-              </div>
-              <div v-else>
-                <router-link :to="{ name: 'dashboard'}">
+              </ul>
+            </li>
+            <li v-else>
+              <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item me-3">
+                  <router-link :to="{ name: 'dashboard', params: {
+                    id: this.authUser.id
+                  }}">
                     <a class="btn btn-dark text-white">Мой профиль</a>
-                </router-link>
-              </div>
+                  </router-link>
+                </li>
+                <li class="nav-item me-3">
+                  <router-link :to="{ name: 'createTask'}">
+                    <a class="btn btn-dark text-white">Создать задачу</a>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <button class="btn btn-danger" @click="handler">Выйти</button>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
@@ -33,8 +49,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  
+  // updated(){
+  //   if (this.$route.path != '/login') {
+  //     this.$store.dispatch('getAuthUser');
+  //   }
+  // },
+  computed: {
+    ...mapGetters([
+      'authUser',
+    ])
+  },
+  methods: {
+    handler(){
+      this.$store.dispatch('logout');
+    }
+  },
 }
 </script>
 <style >

@@ -4,6 +4,7 @@ import Index from '../views/public/Index.vue';
 import Register from '../views/unauth/auth/Register.vue';
 import Login from '../views/unauth/auth/Login.vue';
 import Dashboard from '../views/auth/Dashboard.vue';
+import CreateTask from '../views/auth/task/Create.vue';
 
 const routes = [
     { 
@@ -22,9 +23,14 @@ const routes = [
       name: 'login'
     },
     { 
-      path: '/dashboard', 
+      path: '/dashboard/:id', 
       component: Dashboard,
       name: 'dashboard'
+    },
+    { 
+      path: '/task/create', 
+      component: CreateTask,
+      name: 'createTask'
     },
   ]
 

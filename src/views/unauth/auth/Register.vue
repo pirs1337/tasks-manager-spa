@@ -1,6 +1,6 @@
 <template>
     <h1>{{title}}</h1>
-    <form @submit.prevent="register">
+    <form @submit.prevent="SubmitHandler">
         <div class="mb-3">
             <label for="username" class="form-label">Имя пользователя</label>
             <input type="text" v-model="form.username" class="form-control" id="username">
@@ -23,10 +23,7 @@
 </template>
 
 <script>
-import authMixin from '../../../mixins/axios/Auth.js';
-
 export default {
-    mixins: [authMixin],
     data:()=> {
         return {
             title: 'Регистрация',
@@ -34,8 +31,8 @@ export default {
         }
     },
     methods: {
-        register(e){
-            this.auth(e, 'register', 'login');
+        SubmitHandler(){
+           this.$store.dispatch('register', this.form);
         }
     }
 }
