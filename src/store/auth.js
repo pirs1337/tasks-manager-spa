@@ -35,14 +35,11 @@ const auth = {
                 let token = res.data.token;
                 localStorage.setItem('token', token);
 
-                try {
-                    let user = await dispatch('getAuthUser');
-                    router.push({name: 'dashboard', params: {
+                let user = await dispatch('getAuthUser');
+                console.log(user);
+                router.push({name: 'dashboard', params: {
                         id: user.data.data.id
-                    }});
-                } catch (error) {
-                    console.log(error);
-                }
+                }});
 
             } catch (error) {
                 if (error.response) {
@@ -60,7 +57,9 @@ const auth = {
         },
         async getAuthUser({commit}) {
             try {
-                let user = await axios.get('/user/auth');
+                let user = await axios.get('/user/auth', {
+                    headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
+                });
                 commit('setAuthUser', user.data.data);
 
                 return user;
@@ -68,11 +67,12 @@ const auth = {
                 console.log(error);
             }
         },
-       async logout({dispatch, commit}){
+       async logout({dispatch, commit, state}){
             try {
                 await dispatch('getAuthUser');
                 localStorage.removeItem('token');
                 commit('setAuthUser', null);
+                router.push({name: 'login'})
             } catch (error) {
                 console.log(error);
             }

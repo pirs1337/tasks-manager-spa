@@ -24,7 +24,7 @@ export default {
     },
     methods: {
        async submitHandler(){
-           await this.$store.dispatch('login', this.form)
+            await this.$store.dispatch('login', this.form);
        }
     }
 }

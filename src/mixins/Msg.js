@@ -18,8 +18,11 @@ const mgsMixing = {
           }
       },
       showSuccessMsg(element, msg){
-        element.reset();
-        element.insertAdjacentHTML('afterend', `<div class="alert alert-success mt-5" role="alert">${msg}</div>`);
+        let alert = document.querySelector('.alert-success');
+        if (!alert) {
+         element.insertAdjacentHTML('afterend', `<div class="alert alert-success mt-5" role="alert">${msg}</div>`);
+          setTimeout(() => document.querySelector('.alert-success').remove(), 1000);
+        }
       }
     },
   }

@@ -52,11 +52,6 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  // updated(){
-  //   if (this.$route.path != '/login') {
-  //     this.$store.dispatch('getAuthUser');
-  //   }
-  // },
   computed: {
     ...mapGetters([
       'authUser',

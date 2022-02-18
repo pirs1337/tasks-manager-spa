@@ -7,10 +7,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form @submit.prevent="submitHandler">
                         <div class="mb-3">
                             <label for="title" class="form-label">Заголовок</label>
-                            <input type="title" v-model="form.title" class="form-control"  id="title">
+                            <input type="title" v-model="form.title" class="form-control" id="title">
                         </div>
                         <div class="mb-3">
                             <div class="form-floating">
@@ -19,11 +19,8 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Статус</option>
-                                <option value="1">Активный</option>
-                                <option value="2">Отложенный</option>
-                                <option value="3">Завершенный</option>
+                            <select v-model="form.status" class="form-select" aria-label="Default select example">
+                                <option v-for="status in this.status" :key="status" :value="status">{{status}}</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-success">Сохранить</button>
@@ -42,12 +39,23 @@ export default {
             required: true
         },
     },
-    data:()=> {
+    data(){
         return {
-            form: {}
+            form: this.element,
+            status: [
+                'Активный',
+                'Отложенный',
+                'Завершенный'
+            ]
         }
-    }
+    },
+    methods: {
+        submitHandler(e){
+            this.$store.dispatch('edit', {e, formData: this.form});
+        },
+    },
 }
+
 </script>
 
 <style>

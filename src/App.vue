@@ -22,15 +22,6 @@ export default {
   created(){
     this.$store.dispatch('getAuthUser');
   },
-  methods: {
-    async checkAuthUser(){
-      try {
-        await this.$store.dispatch('getAuthUser');
-      } catch (error) {
-          console.log(233132);
-      }
-    }
-  }
 }
 </script>
 
