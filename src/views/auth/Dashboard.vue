@@ -23,7 +23,6 @@
 
 <script>
 
-import {mapGetters} from 'vuex';
 import EditModal from '../../components/modal/EditModal.vue';
 import DeleteModal from '../../components/modal/DeleteModal.vue';
 

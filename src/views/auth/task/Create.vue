@@ -7,7 +7,7 @@
         </div>
         <div class="mb-3">
             <div class="form-floating">
-                <textarea class="form-control"  v-model="form.body" placeholder="Leave a comment here" id="body" style="height: 100px"></textarea>
+                <textarea class="form-control" v-model="form.body" placeholder="Leave a comment here" id="body" style="height: 100px"></textarea>
                 <label for="body">Текст</label>
             </div>
         </div>
@@ -16,8 +16,11 @@
 </template>
 
 <script>
+import msgMixin from '../../../mixins/Msg.js';
+
 export default {
-    data:()=> {
+    mixins: [msgMixin],
+    data(){
         return {
             title: 'Создание задачи',
             form: {},
@@ -25,7 +28,16 @@ export default {
     },
     methods: {
         submitHandler(e){
-            this.$store.dispatch('create', {e, formData: this.form});
+               this.$store.dispatch('create', {formData: this.form})
+                .then(() => {
+                    this.form = {};
+                    this.showSuccessMsg(e.target, 'Задача создана');
+                }).catch(error => {
+                    if (error.response) {
+                        let errors = error.response.data.error.errors;
+                        this.showErrors(errors);
+                    }
+                });
         }
     }
 }

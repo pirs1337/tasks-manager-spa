@@ -25,21 +25,11 @@ const task = {
        },
     },
     actions: {
-        create({ctx}, {e, formData}){
-                axios.post('tasks', formData, {
+        create({ctx}, {formData}){
+             let result = axios.post('tasks', formData, {
                     headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
-                })
-                    .then( () => {
-                        mixin.methods.hideErrors();
-                        mixin.methods.showSuccessMsg(e.target, 'Задача создана');
-                        e.target.reset();
-                    })
-                    .catch(error => {
-                        if (error.response) {
-                            let errors = error.response.data.error.errors;
-                            mixin.methods.showErrors(errors);
-                        }
-                    })
+            })
+            return result;
         },
         getAll({commit}){
           commit('emptyTasks');
@@ -76,12 +66,12 @@ const task = {
                 data: id,
                 headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
 
-              }).then((res) => {
+              }).then(() => {
                   commit('emptyTasks');
                   dispatch('getAll');
 
-                 var myModalEl = document.querySelector(`#exampleModalDelete${id}`);
-                 var myModal = bootstrap.Modal.getInstance(myModalEl);
+                 let myModalEl = document.querySelector(`#exampleModalDelete${id}`);
+                 let myModal = bootstrap.Modal.getInstance(myModalEl);
                  myModal.hide();
 
               }).catch(error => {
