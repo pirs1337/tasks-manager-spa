@@ -1,12 +1,16 @@
 import mixin from '../mixins/Msg.js';
 import axios from '../axios/config.js';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
 const task = {
     state () {
       return {
-          tasks: []
+          tasks: [],
+          status: [
+              'Активный',
+              'Отложенный',
+              'Завершенный'
+          ]
       }
     },
     mutations: {
@@ -17,10 +21,10 @@ const task = {
        },
        emptyTasks(state){
         state.tasks = [];
-       },
+       }
     },
     getters: {
-       allTasks(state){
+       tasks(state){
         return state.tasks;
        },
     },
@@ -31,10 +35,13 @@ const task = {
             })
             return result;
         },
-        getAll({commit}){
+        getTasks({commit}, {status}){
           commit('emptyTasks');
             axios.get('tasks', {
-                headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
+                headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')},
+                params: {
+                    status: status
+                }
             })
                 .then(res => {
                     commit('add', res.data.data);
@@ -43,7 +50,7 @@ const task = {
                     console.log(error);
                 })
         },
-        edit({ctx}, {e, formData}){
+        edit({dispatch}, {e, formData, status}){
             axios({
                 method: 'PUT',
                 url: `tasks/${formData.id}`,
@@ -51,7 +58,8 @@ const task = {
                 headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
 
               }).then(() => {
-                  mixin.methods.showSuccessMsg(e.target, 'Задача редактирована');
+                mixin.methods.closeModal('Edit'+formData.id);
+                dispatch('getTasks', {status})
               }).catch(error => {
                 if (error.response) {
                     let errors = error.response.data.error.errors;
@@ -59,7 +67,7 @@ const task = {
                 }
               });
         },
-        delete({commit, dispatch}, {id}){
+        delete({dispatch}, {status, id}){
             axios({
                 method: 'DELETE',
                 url: `tasks/${id}`,
@@ -67,15 +75,11 @@ const task = {
                 headers: {'Authorization': 'Bearer '+ localStorage.getItem('token')}
 
               }).then(() => {
-                  commit('emptyTasks');
-                  dispatch('getAll');
-
-                 let myModalEl = document.querySelector(`#exampleModalDelete${id}`);
-                 let myModal = bootstrap.Modal.getInstance(myModalEl);
-                 myModal.hide();
+                mixin.methods.closeModal('Delete'+id)
+                dispatch('getTasks', {status});
 
               }).catch(error => {
-                  console.log(error);
+                console.log(error);
                 if (error.response) {
                     let errors = error.response.data.error.errors;
                     mixin.methods.showErrors(errors);

@@ -45,9 +45,11 @@ const routes = [
   router.beforeEach(async (to, from, next) => {
     const requireAuth = to.matched.some(redcord => redcord.meta.auth);
 
-    await store.dispatch('getAuthUser');
-    const isAuthenticated = store.getters.authUser;
-
+    if (localStorage.getItem('token')) {
+      await store.dispatch('getAuthUser');
+      var isAuthenticated = store.getters.authUser;
+    }
+    
     if (requireAuth && !isAuthenticated) {
       next({name: 'login'});
     }

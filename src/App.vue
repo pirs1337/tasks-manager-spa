@@ -19,9 +19,6 @@ export default {
    Header,
    Footer
   },
-  created(){
-    this.$store.dispatch('getAuthUser');
-  },
 }
 </script>
 

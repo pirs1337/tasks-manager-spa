@@ -1,3 +1,5 @@
+import bootstrap from '../main.js';
+
 const mgsMixing = {
     methods: {
       hideErrors(){
@@ -29,6 +31,11 @@ const mgsMixing = {
               setTimeout(() => alert.remove(), 1000);
           }
         }
+      },
+      closeModal(modal){
+        let myModalEl = document.querySelector(`#exampleModal${modal}`);
+        let myModal = bootstrap.Modal.getInstance(myModalEl);
+        myModal.hide();
       }
     },
   }

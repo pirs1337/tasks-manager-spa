@@ -11,7 +11,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="submit" class="btn btn-danger" @click.prevent="handler">Удалить</button>
+                <button type="button" class="btn btn-danger" @click="handler">Удалить</button>
             </div>
             </div>
         </div>
@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         handler(){
-            this.$store.dispatch('delete', {id: this.element.id});
+            this.$store.dispatch('delete', {status: this.$route.query.status, id: this.element.id});
         }
     }
 }

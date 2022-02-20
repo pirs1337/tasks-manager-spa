@@ -4,7 +4,7 @@ import router from '../src/router/router';
 import store from './store/index.js';
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 
 const app = createApp(App);
@@ -21,4 +21,5 @@ app.mixin({
     }
 })
 
+export default bootstrap;
 

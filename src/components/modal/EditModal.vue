@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         submitHandler(e){
-            this.$store.dispatch('edit', {e, formData: this.form});
+            this.$store.dispatch('edit', {e, formData: this.form, status: this.$route.query.status});
         },
     },
 }
